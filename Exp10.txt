@@ -1,0 +1,26 @@
+//index.jsp
+
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome User</title>
+</head>
+<body style="text-align: center; padding-top: 50px;">
+    <h1>Welcome to JSP Programming!</h1>
+    
+    <%
+        String username = request.getParameter("username");
+        if (username != null && !username.isEmpty()) {
+    %>
+        <h2>Welcome, <%= username %>!</h2>
+    <% } else { %>
+        <form action="index.jsp" method="post">
+            <label for="username">Enter Your Name:</label>
+            <input type="text" name="username" placeholder="Your Name" required>
+            <br><br>
+            <input type="submit" value="Submit">
+        </form>
+    <% } %>
+</body>
+</html>

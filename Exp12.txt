@@ -1,0 +1,94 @@
+import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ActionEvent;
+
+public class Exp12 extends Frame implements ActionListener, ItemListener {
+    Dialog dialog;
+    Label l;
+
+    Exp12() {
+        MenuBar mBar = new MenuBar();
+        setMenuBar(mBar);
+
+        Menu file = new Menu("File");
+        MenuItem new_file = new MenuItem("New");
+        MenuItem open_file = new MenuItem("Open");
+        MenuItem save_file = new MenuItem("Save");
+
+        new_file.addActionListener(this);
+        open_file.addActionListener(this);
+        save_file.addActionListener(this);
+
+        file.add(new_file);
+        file.add(open_file);
+        file.add(save_file);
+        mBar.add(file);
+
+        Menu edit = new Menu("Edit");
+        MenuItem undo_edit = new MenuItem("Undo");
+        CheckboxMenuItem cut_edit = new CheckboxMenuItem("Cut");
+        CheckboxMenuItem copy_edit = new CheckboxMenuItem("Copy");
+        CheckboxMenuItem paste_edit = new CheckboxMenuItem("Paste");
+
+        undo_edit.addActionListener(this);
+        cut_edit.addItemListener(this);
+        copy_edit.addItemListener(this);
+        paste_edit.addItemListener(this);
+
+        Menu sub = new Menu("Save Type");
+        MenuItem sub1_sum = new MenuItem("Direct Save");
+        MenuItem sub2_sum = new MenuItem("Save As");
+        sub.add(sub1_sum);
+        sub.add(sub2_sum);
+
+        edit.add(sub);
+        edit.add(undo_edit);
+        edit.add(cut_edit);
+        edit.add(copy_edit);
+        edit.add(paste_edit);
+        mBar.add(edit);
+
+        dialog = new Dialog(this, false);
+        dialog.setSize(200, 200);
+        dialog.setTitle("Dialog Box");
+
+        Button b = new Button("Close");
+        b.addActionListener(this);
+
+        dialog.setLayout(new FlowLayout());
+        dialog.add(b);
+
+        l = new Label();
+        dialog.add(l);
+    }
+
+    public void actionPerformed(ActionEvent ae) {
+        String selected_item = ae.getActionCommand();
+
+        switch (selected_item) {
+            case "New": l.setText("New"); break;
+            case "Open": l.setText("Open"); break;
+            case "Save": l.setText("Save"); break;
+            case "Undo": l.setText("Undo"); break;
+            case "Cut": l.setText("Cut"); break;
+            case "Copy": l.setText("Copy"); break;
+            case "Paste": l.setText("Paste"); break;
+            case "Close": dialog.dispose(); return;
+            default: l.setText("Invalid Input");
+        }
+
+        dialog.setVisible(true);
+    }
+
+    public void itemStateChanged(ItemEvent ie) {
+        this.repaint();
+    }
+
+    public static void main(String[] args) {
+        Exp12 md = new Exp12();
+        md.setVisible(true);
+        md.setSize(400, 400);
+    }
+}
