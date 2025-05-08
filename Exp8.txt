@@ -1,0 +1,46 @@
+//Create database and a table in mysql first
+import java.sql.*;
+
+public class Exp8 {
+    public static void main(String[] args) {
+        // Step 1: Define database parameters
+        String url = "jdbc:mysql://localhost:3306/exp8"; // Replace 'exp8' with your database name
+        String user = "root";       // Replace with your DB username
+        String password = "root123"; // Replace with your DB password
+
+        try {
+            // Step 2: Load and Register the JDBC driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // Step 3: Establish the connection
+            Connection con = DriverManager.getConnection(url, user, password);
+            System.out.println("Connection established successfully.");
+
+            // Step 4: Create a Statement
+            Statement st = con.createStatement();
+
+            // Step 5: Execute a query (creating a table, inserting data, retrieving)
+            String createTable = "CREATE TABLE IF NOT EXISTS students (id INT, name VARCHAR(50))";
+            st.executeUpdate(createTable);
+
+            String insertData = "INSERT INTO students (id, name) VALUES (1, 'Alice'), (2, 'Bob')";
+            st.executeUpdate(insertData);
+
+            String selectQuery = "SELECT * FROM students";
+            ResultSet rs = st.executeQuery(selectQuery);
+
+            // Step 6: Process the results
+            System.out.println("Student Data:");
+            while (rs.next()) {
+                System.out.println("ID: " + rs.getInt("id") + ", Name: " + rs.getString("name"));
+            }
+
+            // Step 7: Close the connection
+            con.close();
+            System.out.println("Connection closed.");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}

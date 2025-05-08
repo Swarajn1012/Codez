@@ -1,0 +1,82 @@
+//Exp7.java
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class Exp7 extends HttpServlet {
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+
+        String username = request.getParameter("uname");
+        String password = request.getParameter("pwd");
+
+        out.println("<!DOCTYPE html>");
+        out.println("<html><head><title>Login Response</title></head><body>");
+
+        if ("User".equals(username) && "pass123".equals(password)) {
+            out.println("<h1>Welcome " + username + "</h1>");
+        } else {
+            out.println("<h1>Login failed</h1>");
+            out.println("<a href='Registration.html'>Click for Home page</a>");
+        }
+
+        out.println("</body></html>");
+        out.close();
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        doPost(request, response);
+    }
+}
+
+
+
+//Create this file in "Web Pages" folder
+//Registration.html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Page</title>
+</head>
+<body bgcolor='#e600e6'>
+    <form action='MySrv' method="post">
+        <center>
+            <h1><u>Login Page</u></h1>
+            <h2>
+                Username: <input type="text" name="uname" />
+                Password: <input type="password" name="pwd" />
+                <input type="submit" value="click me" />
+            </h2>
+        </center>
+    </form>
+</body>
+</html>
+
+
+
+//Create this file in "WEB-INF" folder
+web.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+   <servlet>
+        <servlet-name>MySrv</servlet-name>
+        <servlet-class>Exp7</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MySrv</servlet-name>
+        <url-pattern>/MySrv</url-pattern>
+    </servlet-mapping>
+
+    <welcome-file-list>
+        <welcome-file>Registration.html</welcome-file>
+    </welcome-file-list>
+</web-app>
+

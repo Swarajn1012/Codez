@@ -1,0 +1,67 @@
+
+//Addition.java (Remote Interface)
+
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+public interface Addition extends Remote {
+    int add(int a, int b) throws RemoteException;
+}
+
+
+
+//AdditionImpl.java (Server Implementation)
+
+import java.rmi.server.UnicastRemoteObject;
+import java.rmi.RemoteException;
+public class AdditionImpl extends UnicastRemoteObject implements Addition {
+    public AdditionImpl() throws RemoteException {
+        super();}
+    public int add(int a, int b) throws RemoteException {
+        return a + b;
+    }
+}
+
+
+
+//AdditionServer.java (RMI Server)
+
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+public class AdditionServer {
+    public static void main(String[] args) {
+        try {
+            AdditionImpl obj = new AdditionImpl();
+            Registry registry = LocateRegistry.createRegistry(1099);
+            registry.rebind("AddService", obj);
+            System.out.println("Addition Server is ready...");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+              
+
+        
+//AdditionClient.java (RMI Client)
+
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.util.Scanner;
+public class AdditionClient {
+    public static void main(String[] args) {
+        try {
+            // Getting input from the user
+            Scanner sc = new Scanner(System.in);
+            System.out.print("Enter first number: ");
+            int num1 = sc.nextInt();
+            System.out.print("Enter second number: ");
+            int num2 = sc.nextInt();
+            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+            Addition stub = (Addition) registry.lookup("AddService");
+            int result = stub.add(num1, num2);
+            System.out.println("Result from Server: " + result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        	}
+        }
+}

@@ -1,0 +1,32 @@
+//Create database and a table in mysql first
+
+import java.sql.*;
+public class Exp4 {
+    public static void main(String[] args) {
+        String url = "jdbc:mysql://localhost:3306/exp4"; // MySQL JDBC URL
+        String user = "root";
+        String password = "root123";
+        try (Connection con = DriverManager.getConnection(url, user, password)) {
+            Class.forName("com.mysql.cj.jdbc.Driver"); 
+            String insert = "INSERT INTO students (id, name, age) VALUES (?, ?, ?)";
+            try (PreparedStatement ps = con.prepareStatement(insert)) {
+                ps.setInt(1, 3);
+                ps.setString(2, "Ram");
+                ps.setInt(3, 18);
+                ps.executeUpdate();
+            }
+            try (Statement stmt = con.createStatement();
+                 ResultSet rs = stmt.executeQuery("SELECT * FROM students")) {
+                System.out.println("Student Records:");
+                while (rs.next()) {
+                    System.out.printf("%d | %s | %d%n",
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getInt("age"));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}

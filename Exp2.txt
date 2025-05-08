@@ -1,0 +1,51 @@
+import java.awt.*;
+import java.awt.event.*;
+
+class MouseStatus extends Frame implements MouseListener {
+
+    MouseStatus() {
+        setTitle("Mouse Event Frame");
+        setSize(400, 300);
+        setLayout(new FlowLayout());
+        add(new Label("Mouse Events: Enter, Exit, Click"));
+
+        addMouseListener(this);
+        setVisible(false); // Frame hidden initially
+    }
+    
+    public void mouseEntered(MouseEvent e) {
+        System.out.println("Mouse Entered");
+        setVisible(true);
+    }
+    
+    public void mouseExited(MouseEvent e) {
+        System.out.println("Mouse Exited");
+        setVisible(false);
+    }
+    
+    public void mouseClicked(MouseEvent e) {
+        System.out.println("Mouse Clicked");
+    }
+    
+    public void mousePressed(MouseEvent e) {}
+    public void mouseReleased(MouseEvent e) {}
+
+    public static void main(String[] args) {
+        // Helper frame that stays visible so you can trigger the events
+        Frame baseFrame = new Frame("Trigger Area");
+        baseFrame.setSize(300, 200);
+        baseFrame.setLayout(new FlowLayout());
+        baseFrame.add(new Label("Move mouse here to show the frame"));
+        baseFrame.setVisible(true);
+
+        // Frame that appears/disappears based on mouse
+        MouseStatus mouseFrame = new MouseStatus();
+
+        // Add mouse listener to the base frame to trigger visibility
+        baseFrame.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) {
+                mouseFrame.setVisible(true);
+            }
+        });
+    }
+}
